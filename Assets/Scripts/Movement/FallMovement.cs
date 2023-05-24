@@ -1,18 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class FallMovement : IMovement
+public class FallMovement : Movement
 {
-    private Rigidbody _rigidbody;
+    public FallMovement(Rigidbody rigidbody, MovementData movementData) : base(rigidbody, movementData)
+    { }
 
-    public FallMovement(Rigidbody rigidbody)
+    public override void Move(Vector2 moveVector)
     {
-        _rigidbody = rigidbody;
-    }
-
-    public void Move(Vector2 moveVector)
-    {
-        
+        _rigidbody.velocity = Vector3.Lerp(
+            _rigidbody.velocity,
+            Vector3.zero,
+            Time.fixedDeltaTime * _movementData.BrakingSpeed);
     }
 }

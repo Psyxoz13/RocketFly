@@ -4,11 +4,13 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerFacade : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private Rigidbody _rigidbody;
+    [SerializeField] private MovementData _movementData;
 
     private Camera _camera;
 
-    private IMovement _movement;
+    private Movement _movement;
 
     private float _moveXPoint;
 
@@ -16,12 +18,13 @@ public class PlayerFacade : MonoBehaviour
     {
         _camera = Camera.main;
 
-        _movement = new FallMovement(_rigidbody);
+        _movement = new FallMovement(_rigidbody, _movementData);
     }
 
     private void OnMove(InputValue value)
     {
-        _moveXPoint = _camera.ScreenToViewportPoint(
+        _moveXPoint =
+            _camera.ScreenToViewportPoint(
                 value.Get<Vector2>()).x - .5f;
     }
 
@@ -29,12 +32,12 @@ public class PlayerFacade : MonoBehaviour
     {
         if (value.Get<float>() > 0)
         {
-            _movement = new TakeoffMovement(_rigidbody);
+            _movement = new TakeoffMovement(_rigidbody, _movementData);
 
             return;
         }
 
-        _movement = new FallMovement(_rigidbody);
+        _movement = new FallMovement(_rigidbody, _movementData);
     }
 
     private void FixedUpdate()
