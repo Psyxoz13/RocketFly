@@ -7,6 +7,7 @@ public class PlayerFacade : MonoBehaviour
     [Header("Movement")]
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] private MovementData _movementData;
+    [SerializeField] private ParticleSystem _fireEffect;
 
     private Camera _camera;
 
@@ -34,10 +35,14 @@ public class PlayerFacade : MonoBehaviour
         {
             _movement = new TakeoffMovement(_rigidbody, _movementData);
 
+            _fireEffect.Play();
+
             return;
         }
 
         _movement = new FallMovement(_rigidbody, _movementData);
+
+        _fireEffect.Stop();
     }
 
     private void FixedUpdate()
