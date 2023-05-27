@@ -3,7 +3,9 @@ using UnityEngine;
 public class TakeoffMovement : Movement
 {
     public TakeoffMovement(Rigidbody rigidbody, MovementData movementData) : base(rigidbody, movementData)
-    { }
+    {
+        rigidbody.freezeRotation = true;
+    }
 
     public override void Move(Vector2 moveVector)
     {
